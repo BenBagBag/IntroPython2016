@@ -1,0 +1,4 @@
+questions:
+-why can't i make a new list or tuple using a list comprehension-like function on a tuple?
+(given that a tuple is iterable)
+-what is reversed(x) 's resultant object? what good is it?

@@ -1,0 +1,45 @@
+notes
+
+tuples
+_____
+tuple assignment:
+x, y = 1, 2
+
+divmod(x, y)
+returns quotient, remainder of x / y
+
+gathering arguments:
+def print_all(*args):
+  print(args)
+
+# of arguments is variable, prefixing an asterix makes that explicit and allows any # of arguments
+
+scattering arguments:
+pass in a list or tuple to a function and assign them to arguments
+e.g.:
+x = (3, 2)
+divmod(x*) --> (1, 1)
+
+zip:
+iterates through two sequences to pair into tuples
+e.g.:
+zip('abc', [1, 2, 3])
+('a', 1)
+('b', 2)
+('c', 3)
+
+structshape -- module to help summarize what forms data structures take
+
+
+enumerate(string)--object containing tuples of index and letters
+
+loops do not create local namespace!
+they will overwrite your pre-existing variables!
+
+for loops can take an else:
+for x in range(10):
+  if x == 11:
+    print('yay')
+else:
+  print('we went through the entire loop and no conditions were fulfilled')
+  
