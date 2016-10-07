@@ -4,10 +4,7 @@ donors = [["Wilmot Filipe", 18.00, 72.00], ["Neoptolemus Yaropolk", 36.00], ["Ma
 
 def accept_donation():
     amount = input("How much did this person donate? \n")
-    if amount == "quit":
-        global user_command
-        user_command = ""
-    elif check_if_number(amount):
+    if amount == "quit" or check_if_number(amount):
         return amount
     else:
         amount = input("You must enter a numeric amount: \n")
@@ -86,19 +83,24 @@ def send_thank_you():
         user_command = ""
     elif thank_you_command.lower() == "list":
         print_donor_list()
-    elif thank_you_command in donor_names:
-        donation_amount = float(accept_donation())
-        name = thank_you_command
-        donors[donor_names.index(name)].append(donation_amount)
-        print("Adding ${:02.2f} to {}'s donations.".format(donation_amount, name))
-        print_thank_you(name, donation_amount)
     else:
-        donation_amount = float(accept_donation())
-        print(donation_amount)
-        name = thank_you_command
-        donors.append([name, donation_amount])
-        print("Adding {} as a donor, with a donation of ${:02.2f}.".format(name, donation_amount))
-        print_thank_you(name, donation_amount)
+        donation_amount = accept_donation()
+        if donation_amount == "quit":
+            user_command = ""
+            return
+        else:
+            donation_amount = float(donation_amount)
+        if thank_you_command in donor_names:
+            name = thank_you_command
+            donors[donor_names.index(name)].append(donation_amount)
+            print("Adding ${:02.2f} to {}'s donations.".format(donation_amount, name))
+            print_thank_you(name, donation_amount)
+        else:
+            print(donation_amount)
+            name = thank_you_command
+            donors.append([name, donation_amount])
+            print("Adding {} as a donor, with a donation of ${:02.2f}.".format(name, donation_amount))
+            print_thank_you(name, donation_amount)
 
 
 def sort_donors(donor_list):
