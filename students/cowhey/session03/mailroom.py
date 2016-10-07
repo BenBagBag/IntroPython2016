@@ -4,10 +4,20 @@ donors = [["Wilmot Filipe", 18.00, 72.00], ["Neoptolemus Yaropolk", 36.00], ["Ma
 
 def accept_donation():
     amount = input("How much did this person donate? \n")
-    while not amount.isnumeric():
-        amount = input("Sorry, you need to enter a donation amount using only numbers: \n")
-    return float(amount)
+    if amount == "quit":
+        global user_command
+        user_command = ""
+    elif check_if_number(amount):
+        return amount
+    else:
+        amount = input("You must enter a numeric amount: \n")
 
+def check_if_number(num):
+    try:
+        float(num)
+        return True
+    except ValueError or TypeError:
+        return False
 
 def create_reports():
     donor_rows = []
@@ -50,6 +60,7 @@ def print_donor_list():
     print("These are the donors you have in your database:")
     for donor in donors:
         print(donor[0])
+    print()
 
 
 def print_report():
@@ -57,34 +68,37 @@ def print_report():
     donor_rows = create_reports()
     sorted_donors = sort_donors(donor_rows)
     print(format_row(header_row))
-    for row in donor_rows:
+    for row in sorted_donors:
         print(format_row(row))
+    print()
 
 
 def print_thank_you(name, donation):
     print("Sending this email: ")
-    print("Dear {},\nThank you for your gift of ${:02.2f} to the Fund for Unmatched Socks.".format(name, donation))
+    print("Dear {},\nThank you for your gift of ${:02.2f} to the Fund for Unmatched Socks. Your help will be greatly appreciated by all those who partake in our holey work.".format(name, donation))
+    print()
 
 
 def send_thank_you():
     donor_names = [x[0] for x in donors]
     thank_you_command = input("Type the full name of the person you would like to thank. \nOr type 'list' to see a list of donors.\n")
-    if thank_you_command.lower() == "quit":
-        orig_prompt()
+    if thank_you_command == "quit":
+        user_command = ""
     elif thank_you_command.lower() == "list":
         print_donor_list()
     elif thank_you_command in donor_names:
-        donation_amount = accept_donation()
-        donors[donor_names.index(thank_you_command)].append(donation_amount)
-        print("Adding ${:02.2f} to {}'s donations.".format(float(donation_amount), thank_you_command))
-        print_thank_you(thank_you_command, donation_amount)
-        orig_prompt()
+        donation_amount = float(accept_donation())
+        name = thank_you_command
+        donors[donor_names.index(name)].append(donation_amount)
+        print("Adding ${:02.2f} to {}'s donations.".format(donation_amount, name))
+        print_thank_you(name, donation_amount)
     else:
-        donation_amount = accept_donation()
-        donors.append([thank_you_command, donation_amount])
-        print("Adding {} as a donor, with a donation of ${:02.2f}.".format(donation_amount, float(donation_amount)))
-        print_thank_you(thank_you_command, donation_amount)
-        orig_prompt()
+        donation_amount = float(accept_donation())
+        print(donation_amount)
+        name = thank_you_command
+        donors.append([name, donation_amount])
+        print("Adding {} as a donor, with a donation of ${:02.2f}.".format(name, donation_amount))
+        print_thank_you(name, donation_amount)
 
 
 def sort_donors(donor_list):
