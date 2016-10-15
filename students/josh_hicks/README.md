@@ -1,2 +1,2 @@
-Session 02 Github
-==============
+Intro to Python 2016 Winter Edition
+===================================
