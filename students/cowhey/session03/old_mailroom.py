@@ -1,12 +1,13 @@
-#!/usr/bin/env python
+#! /usr/bin/env python3
+
+donors = [["Wilmot Filipe", 18.00, 72.00], ["Neoptolemus Yaropolk", 36.00], ["Mahesha Diogenes", 90.00, 54.00, 18.00], ["Arthur Tjaz", 18.00], ["Luuk Sinclair", 180.00]]
 
 def accept_donation():
     amount = input("How much did this person donate? \n")
-    if amount == "x" or check_if_number(amount):
+    if amount == "quit" or check_if_number(amount):
         return amount
     else:
-        print("You must enter a numeric amount.")
-        return accept_donation()
+        amount = input("You must enter a numeric amount: \n")
 
 def check_if_number(num):
     try:
@@ -14,7 +15,6 @@ def check_if_number(num):
         return True
     except ValueError or TypeError:
         return False
-
 
 def create_reports():
     donor_rows = []
@@ -34,6 +34,24 @@ def format_row(row):
         formatted.append('{:30}'.format(item))
     return ' '.join(formatted)
 
+def main():
+    user_command = orig_prompt()
+    while user_command != "quit":
+        if user_command == "1":
+            send_thank_you()
+            user_command = orig_prompt()
+        elif user_command == "2":
+            print_report()
+            user_command = orig_prompt()
+        else:
+            print("Not a valid command.")
+            user_command = orig_prompt()
+    return
+
+
+def orig_prompt():
+    return input("Would you like to: \n 1.Send a thank you \n 2. Create a report \n or quit? \n")
+
 
 def print_donor_list():
     print("These are the donors you have in your database:")
@@ -43,7 +61,6 @@ def print_donor_list():
 
 
 def print_report():
-    print("This will print a report")
     header_row = ["Name", "Total Donated", "Number of Donations", "Average Donation"]
     donor_rows = create_reports()
     sorted_donors = sort_donors(donor_rows)
@@ -53,17 +70,23 @@ def print_report():
     print()
 
 
-def send_thanks():
-    print("This will write a thank you note")
+def print_thank_you(name, donation):
+    print("Sending this email: ")
+    print("Dear {},\nThank you for your gift of ${:02.2f} to the Fund for Unmatched Socks. Your help will be greatly appreciated by all those who partake in our holey work.".format(name, donation))
+    print()
+
+
+def send_thank_you():
     donor_names = [x[0] for x in donors]
     thank_you_command = input("Type the full name of the person you would like to thank. \nOr type 'list' to see a list of donors.\n")
-    if thank_you_command == "x":
-        return
+    if thank_you_command == "quit":
+        user_command = ""
     elif thank_you_command.lower() == "list":
         print_donor_list()
     else:
         donation_amount = accept_donation()
-        if donation_amount == "x":
+        if donation_amount == "quit":
+            user_command = ""
             return
         else:
             donation_amount = float(donation_amount)
@@ -80,44 +103,6 @@ def send_thanks():
             print_thank_you(name, donation_amount)
 
 
-
-# here is where triple quoted strings can be helpful
-msg = """
-What would you like to do?
-
-To send a thank you: type "s"
-To print a report: type "p"
-To exit: type "x"
-"""
-
-donors = [["Wilmot Filipe", 18.00, 72.00], ["Neoptolemus Yaropolk", 36.00], ["Mahesha Diogenes", 90.00, 54.00, 18.00], ["Arthur Tjaz", 18.00], ["Luuk Sinclair", 180.00]]
-
-
-def main():
-    """
-    run the main interactive loop
-    """
-
-    response = ""
-    # keep asking until the users responds with an 'x'
-    while True:  # make sure there is a break if you have infinite loop!
-        print(msg)
-        response = input("==> ").strip().lower()  # strip() in case there are any spaces
-        if response == 'p':
-            print_report()
-        elif response == 's':
-            send_thanks()
-        elif response == 'x':
-            break
-        else:
-            print('please type "s", "p", or "x"')
-
-def print_thank_you(name, donation):
-    print("Sending this email: ")
-    print("Dear {},\nThank you for your gift of ${:02.2f} to the Fund for Unmatched Socks. Your help will be greatly appreciated by all those who partake in our holey work.".format(name, donation))
-    print()
-
-
 def sort_donors(donor_list):
     sorted_donors = []
     sorted_donors.append(donor_list[0])
@@ -129,7 +114,6 @@ def sort_donors(donor_list):
             elif x == len(sorted_donors) - 1:
                 sorted_donors.append(donor)
     return sorted_donors
-
 
 if __name__ == "__main__":
     main()
