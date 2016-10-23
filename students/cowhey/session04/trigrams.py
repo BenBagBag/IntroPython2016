@@ -6,7 +6,7 @@ $ python3 trigrams.py filename fileLength frontMatter endMatter
 filename: file name, including file path
 fileLength: an integer
 frontMatter: file's front matter end string (must be in quotation marks, optional)
-endMatter: file's end matter end string (must be in quotation marks, optional)'''
+endMatter: file's end matter beginning string (must be in quotation marks, optional)'''
 
 
 import random
@@ -74,7 +74,7 @@ def write_trigram_text(input_file, length, front_matter=None, end_matter=None):
     '''Print a text produced from trigrams derived from input file.
     input_file: string of file name
     front_matter: text of final line of text's front matter (title, publication info)
-    end_matter: text of final line of text's end matter (acknowledgments, etc.)
+    end_matter: text of first line of text's end matter (acknowledgments, etc.)
     length: length, in words, of ouput text'''
     all_words = read_file(input_file, front_matter, end_matter)
     trigrams = make_trigrams(all_words)
