@@ -22,8 +22,10 @@ class WeatherData:
         self.weather_dict = {}
         if location:
             self.location = location
+            self.userProvidedLocation = True
         else:
             self.location = self.get_location()
+            self.userProvidedLocation = False
         self.get_weather()
         # but now they're not printing all clothes
         self.determine_clothing()
@@ -35,6 +37,8 @@ class WeatherData:
 
     def get_weather(self):
         local_weather = owm.weather_at_place(self.location)
+        if self.userProvidedLocation:
+            self.location = local_weather.get_location().get_name()
         current_weather = local_weather.get_weather()
         self.weather_dict["status"] = current_weather.get_detailed_status()
         self.weather_dict["rain"] = current_weather.get_rain()

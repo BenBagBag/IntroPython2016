@@ -1,3 +1,3 @@
 ## To Run
-`$ export FLASK_APP=hello.py
+`$ export FLASK_APP=app.py
 $ python -m flask run`
