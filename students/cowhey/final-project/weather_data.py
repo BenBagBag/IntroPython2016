@@ -10,7 +10,8 @@ owm = pyowm.OWM(openweather_api)
 
 class WeatherData:
     def __init__(self, location=""):
-        self.openweather_api = "b5158610d2e704cb0db72c02fbdd4bbb"
+        # add API key here
+        self.openweather_api = SECRET_KEY
         self.clothing = { "parka": False,
                          "rain coat": False,
                          "shorts": False,
