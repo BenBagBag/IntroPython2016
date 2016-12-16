@@ -1,0 +1,43 @@
+<div class="buffer-div">
+    <h1 class="text-center">What's the Weather?</h1>
+    {% if searchCity %}
+    <h4 class="text-center">You searched for: {{ city }}</h4>
+    <h4 class="text-center">The weather there is: {{ weather.status }}</h4>
+    {% else %}
+    <h4 class="text-center">You're in: {{ city }}</h4>
+    <h4 class="text-center">The weather is: {{ weather.status }}</h4>
+    {% endif %}
+    <h4 class="text-center">Temperature: {{ weather.temp }}&deg;F</h4>
+    <h4 class="text-center">Humidity: {{ weather.humidity }}%</h4>
+    <h4 class="text-center">Wind Speed: {{ weather.wind }} MPH</h4>
+    {% if weather.rain %}
+    <h4 class="text-center">Rainfall: {{ "{0:.2f}".format(weather.rain["3h"]/3) }} in/hr </h4>
+    {% endif %}
+    {% if weather.snow %}
+    <h4 class="text-center">Snowfall: {{ "{0:.2f}".format(weather.snow["3h"]/3) }} in/hr </h4>
+    {% endif %}
+</div>
+
+<div>
+  <h1 class="text-center">So What Should I Wear?</h1>
+  <div class="container centered buffer-div">
+    <div class="row centered">
+      <div class="col-lg-2"></div>
+      {% for piece in clothing|sort %}
+        <div class="col-lg-1 text-center">{{ piece }}</div>
+      {% endfor %}
+      <div class="col-lg-2"></div>
+    </div>
+    <div class="row centered">
+      <div class="col-lg-2"></div>
+      {% for piece in clothing|sort %}
+        {% if clothing[piece] %}
+          <div class="col-lg-1 text-center"><p><img class="icon" src="{{ url_for('static', filename='assets/check.png') }}"></p></div>
+        {% else %}
+        <div class="col-lg-1 text-center"><p><img class="icon" src="{{ url_for('static', filename='assets/x.jpg') }}"></p></div>
+        {% endif %}
+      {% endfor %}
+      <div class="col-lg-2"></div>
+    </div>
+  </div>
+</div>
